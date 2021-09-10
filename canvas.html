@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body{
+            margin: 0;
+            overflow: hidden;
+        }
+        /* canvas{
+            height:100vh;
+            width:100vw;
+        } */
+        /* not advised because khich kr bda kr rha hai,so data (image) phtt jata hai */
+    </style>
+</head>
+<body>
+    <canvas></canvas>
+    <script>
+        let canvas=document.querySelector("canvas");
+        canvas.width=window.innerWidth;
+        canvas.height=window.innerHeight;
+        // console.log(event.which);
+        let isDrawing=false;
+        let x=0,y=0;
+        let tool=canvas.getContext("2d");
+
+        canvas.addEventListener("mousedown",function(e){
+            isDrawing=true;
+            x=e.offsetX;
+            y=e.offsetY;
+            
+        })
+
+        canvas.addEventListener("mousemove",function(e){
+            if(isDrawing!=true)return;
+            tool.moveTo(x,y);
+            tool.lineTo(e.offsetX,e.offsetY);
+            x=e.offsetX;
+            y=e.offsetY;
+            tool.stroke();
+            tool.beginPath();
+            
+        })
+
+        canvas.addEventListener("mouseup",function(e){
+            isDrawing=false;
+            tool.moveTo(x,y);
+            tool.lineTo(e.offsetX,e.offsetY);
+            tool.stroke();
+            tool.beginPath();
+
+        })
+
+
+        
+        // tool.moveTo(0,0);
+        
+        // tool.lineTo(640,680);
+
+        // tool.stroke();
+
+    </script>
+    <!-- <script>
+        let canvas=document.querySelector("canvas");
+        canvas.width=window.innerWidth;
+        canvas.height=window.innerHeight;
+
+        let tool=canvas.getContext("2d");
+        console.log(event.which);
+    </script> -->
+</body>
+</html>
