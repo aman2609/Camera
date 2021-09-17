@@ -1,6 +1,7 @@
 let req=indexedDB.open("gallery",1);
 
 let database;
+let NumberOfMedia=0;
 req.addEventListener("success",function(){
     database=req.result;
     // console.log(database);
@@ -33,6 +34,7 @@ function viewMedia(){
         let cursor=req.result;
         let galleryContainer=document.querySelector(".gallery-container");
         if(cursor){
+            NumberOfMedia++;
             let mediaCard=document.createElement("div");
             mediaCard.classList.add("media-card");
             mediaCard.innerHTML=`<div class="actual-media"></div>
@@ -72,6 +74,10 @@ function viewMedia(){
             })
             galleryContainer.append(mediaCard);
             cursor.continue();
+        }else{
+            if(NumberOfMedia==0){
+                alert("No Photo/Video present at the moment");
+            }
         }
     })
 }
@@ -93,3 +99,7 @@ function deleteMedia(mId){
     let mediaStore=tx.objectStore("media");
     mediaStore.delete(mId);
 }
+let backBtn=document.querySelector(".back");
+backBtn.addEventListener("click",function(){
+    location.assign("index.html");
+})
