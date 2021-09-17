@@ -41,12 +41,16 @@ function viewMedia(){
                 <button class="media-delete">Delete</button>
             </div>`
             let actualMedia=mediaCard.querySelector(".actual-media");
+            let downloadBtn=mediaCard.querySelector(".media-download");
             let data=cursor.value.mediaData;
             let type=typeof(data);
             // console.log(type);
             if(type=="string"){
                 let img=document.createElement("img");
                 img.src=data;
+                downloadBtn.addEventListener("click",function(){
+                    downloadMedia(data,"image");
+                });
                 actualMedia.append(img);
             }else if(type=="object"){
                 let video=document.createElement("video")
@@ -56,11 +60,25 @@ function viewMedia(){
                 video.controls=true;
                 video.muted=true;
                 video.loop=true;
+                downloadBtn.addEventListener("click",function(){
+                    downloadMedia(url,"video");
+                });
                 actualMedia.append(video);
             }
-            console.log(cursor.value);
             galleryContainer.append(mediaCard);
             cursor.continue();
         }
     })
+}
+
+function downloadMedia(url,type){
+    let anchor=document.createElement("a");
+    anchor.href=url;
+    if(type=="image"){
+        anchor.download="image.png";
+    }else if(type=="video"){
+        anchor.download="video.mp4"
+    }
+    anchor.click();
+    anchor.remove();
 }
