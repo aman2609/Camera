@@ -38,10 +38,11 @@ function viewMedia(){
             mediaCard.innerHTML=`<div class="actual-media"></div>
             <div class="media-buttons">
                 <button class="media-download">Download</button>
-                <button class="media-delete">Delete</button>
+                <button data-mid=${cursor.value.mId} class="media-delete">Delete</button>
             </div>`
             let actualMedia=mediaCard.querySelector(".actual-media");
             let downloadBtn=mediaCard.querySelector(".media-download");
+            let deleteBtn=mediaCard.querySelector(".media-delete");
             let data=cursor.value.mediaData;
             let type=typeof(data);
             // console.log(type);
@@ -65,6 +66,10 @@ function viewMedia(){
                 });
                 actualMedia.append(video);
             }
+            deleteBtn.addEventListener("click",function(){
+                deleteMedia(Number(deleteBtn.getAttribute("data-mid")));
+                deleteBtn.parentElement.parentElement.remove();
+            })
             galleryContainer.append(mediaCard);
             cursor.continue();
         }
@@ -81,4 +86,10 @@ function downloadMedia(url,type){
     }
     anchor.click();
     anchor.remove();
+}
+
+function deleteMedia(mId){
+    let tx=database.transaction("media","readwrite");
+    let mediaStore=tx.objectStore("media");
+    mediaStore.delete(mId);
 }
