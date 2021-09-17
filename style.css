@@ -5,7 +5,16 @@ body{
     margin: 0;
     overflow: hidden;
 }
+.left,.right{
+    width: 20%;
+    height: 100%;
+    background-color: black;
+    z-index: 2;
+}
 .video-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
     z-index: 1;
     overflow: hidden;
     height: 100vh;
@@ -14,7 +23,7 @@ body{
 }
 video{
     height: 100%;
-    width: 100%;
+    width: 70%;
     /* aspect-ratio:1/1 !important; */
 }
 button{
@@ -37,6 +46,11 @@ button{
     top: calc(46vh - 5rem);
     right: 5rem;
 }
+#gallery{
+    border-radius: 0px !important;
+    bottom: 7rem;
+    right: 5.5rem;
+}
 .filters{
     z-index: 3;
     position: fixed;
@@ -48,6 +62,9 @@ button{
     left:5vw;
     display: flex;
     flex-direction: column;
+}
+.zoomWhileRecording{
+    z-index: 1 !important;
 }
 .filter{
     flex-grow: 1;
@@ -82,7 +99,7 @@ button{
 .material-icons.md-36{
     font-size: 34px ;
 }
-button span{
+button div{
     background-color: red;
     height: 60%;
     width: 70%;

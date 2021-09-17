@@ -11,7 +11,9 @@
 <body>
     <!-- for video playing and functionality for player like controls,loop,autoplay -->
     <div class="video-container">
+        <div class="left"></div>
         <video  autoplay style="transform: scale(1);"></video>
+        <div class="right"></div>
     </div>
     <div class="filters">
         <div class="filter" style="background-color: #f1c40f44;"></div>
@@ -34,17 +36,22 @@
      
 
     <button id="record">
-        <span>
+        <div>
             
-        </span>
+        </div>
     </button>
     <button id="capture">
-        <span>
+        <div>
 
+        </div>
+    </button>
+    <button id="gallery" style="background-color: black; height: 4rem; width: 4rem;">
+        <span class="material-icons" style="font-size: 3.5rem; color: white;">
+            collections
         </span>
     </button>
     
-    
+    <script src="dbscript.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

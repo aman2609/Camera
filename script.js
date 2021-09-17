@@ -1,6 +1,7 @@
 
 
 // selecting video tag
+let zoom=document.querySelector(".zoom");
 let chunks=[];
 let mediaRecorder;
 let isRecording=false;
@@ -8,10 +9,15 @@ let body=document.querySelector("body");
 let captureBtn=document.querySelector("#capture");
 let videoPlayer=document.querySelector('video');
 let recordBtn=document.querySelector("#record");
+let galleryBtn=document.querySelector("#gallery");
 let filter="";
 let currZoom=1;//min=1 & max=3
 let zoomIn=document.querySelector(".in");
 let zoomOut=document.querySelector(".out")
+
+galleryBtn.addEventListener("click",function(){
+    location.assign("gallery.html");
+})
 
 zoomIn.addEventListener("click",function(){
     currZoom=currZoom+0.1;
@@ -44,18 +50,20 @@ for(let i=0;i<allFilters.length;i++){
 
 
 recordBtn.addEventListener("click",function(){
-    let innerSpan=recordBtn.querySelector("span");
+    let innerSpan=recordBtn.querySelector("div");
     let previousFilter=document.querySelector(".filter-div");
     if(previousFilter)previousFilter.remove();
     filter="";
 
     if(isRecording){
         mediaRecorder.stop();
+        zoom.classList.remove("zoomWhileRecording");
         innerSpan.classList.remove("record-animation");
         isRecording=false;
 
     }else{
         mediaRecorder.start();
+        zoom.classList.add("zoomWhileRecording");
         currZoom=1;
         videoPlayer.style.transform=`scale(${currZoom})`
         innerSpan.classList.add("record-animation");
@@ -64,7 +72,7 @@ recordBtn.addEventListener("click",function(){
 })
 
 captureBtn.addEventListener("click",function(){
-    let innerSpan=captureBtn.querySelector("span");
+    let innerSpan=captureBtn.querySelector("div");
     innerSpan.classList.add("capture-animation");
     setTimeout(function(){
         innerSpan.classList.remove("capture-animation");
@@ -88,12 +96,13 @@ captureBtn.addEventListener("click",function(){
     }
 
     let url=canvas.toDataURL();
-
-    let a=document.createElement("a");
-    a.href=url;
-    a.download="image.png";
-    a.click();
-    a.remove();
+    canvas.remove();
+    saveMedia(url);
+    // let a=document.createElement("a");
+    // a.href=url;
+    // a.download="image.png";
+    // a.click();
+    // a.remove();
 })
 
 // asking permission to use the camera from browser
@@ -117,12 +126,14 @@ promiseToUseCamera.then(function(mediaStream){
         let blob=new Blob(chunks,{type:"video/mp4"});
         chunks=[];
 
-        let link=URL.createObjectURL(blob);
-        let a=document.createElement("a");
-        a.href=link;
-        a.download="video.mp4";
-        a.click();
-        a.remove();
+        saveMedia(blob);
+
+        // let link=URL.createObjectURL(blob);
+        // let a=document.createElement("a");
+        // a.href=link;
+        // a.download="video.mp4";
+        // a.click();
+        // a.remove();
     })
     
 }).catch(function(){
